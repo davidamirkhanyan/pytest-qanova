@@ -1,0 +1,585 @@
+{
+    "tests": [
+        {
+            "nodeid": "Tests/Failures/test_call_error.py::TestFalse::test_false",
+            "name": "test_false",
+            "path": "/Users/sa/PycharmProjects/pytest-qanova/Tests/Failures/test_call_error.py",
+            "location": [
+                "Tests/Failures/test_call_error.py",
+                1,
+                "TestFalse.test_false"
+            ],
+            "markers": [],
+            "status": "done",
+            "results": {
+                "setup": {
+                    "outcome": "passed",
+                    "duration": 0.0003559290000000326
+                },
+                "call": {
+                    "outcome": "failed",
+                    "duration": 0.00025270600000004695,
+                    "longrepr": "self = <Tests.Failures.test_call_error.TestFalse object at 0x7fd0baed9df0>\n\n    def test_false(self):\n        print(\"False\")\n>       assert False, \"Assertion Message\"\nE       AssertionError: Assertion Message\nE       assert False\n\nTests/Failures/test_call_error.py:4: AssertionError",
+                    "error_type": "AssertionError",
+                    "error_message": "Assertion Message\nassert False"
+                },
+                "teardown": {
+                    "outcome": "passed",
+                    "duration": 0.000102265999999962
+                }
+            }
+        },
+        {
+            "nodeid": "Tests/Failures/test_in_class_in_class_error.py::Tests::Test::test_in_class_in_class",
+            "name": "test_in_class_in_class",
+            "path": "/Users/sa/PycharmProjects/pytest-qanova/Tests/Failures/test_in_class_in_class_error.py",
+            "location": [
+                "Tests/Failures/test_in_class_in_class_error.py",
+                5,
+                "Tests.Test.test_in_class_in_class"
+            ],
+            "markers": [],
+            "status": "done",
+            "results": {
+                "setup": {
+                    "outcome": "passed",
+                    "duration": 8.556199999998348e-05
+                },
+                "call": {
+                    "outcome": "failed",
+                    "duration": 0.00012910700000001718,
+                    "longrepr": "self = <Tests.Failures.test_in_class_in_class_error.Tests.Test object at 0x7fd0baeeb130>\n\n    def test_in_class_in_class(self):\n        \"\"\"\n        This is my test inside `Test` class\n        \"\"\"\n>       assert False, \"Error Message\"\nE       AssertionError: Error Message\nE       assert False\n\nTests/Failures/test_in_class_in_class_error.py:10: AssertionError",
+                    "error_type": "AssertionError",
+                    "error_message": "Error Message\nassert False"
+                },
+                "teardown": {
+                    "outcome": "passed",
+                    "duration": 7.13900000000045e-05
+                }
+            }
+        },
+        {
+            "nodeid": "Tests/Failures/test_invalid_import.py::test_invalid_import",
+            "name": "test_invalid_import",
+            "path": "/Users/sa/PycharmProjects/pytest-qanova/Tests/Failures/test_invalid_import.py",
+            "location": [
+                "Tests/Failures/test_invalid_import.py",
+                2,
+                "test_invalid_import"
+            ],
+            "markers": [],
+            "status": "done",
+            "results": {
+                "setup": {
+                    "outcome": "passed",
+                    "duration": 7.492999999991756e-05
+                },
+                "call": {
+                    "outcome": "failed",
+                    "duration": 0.000332847000000025,
+                    "longrepr": "def test_invalid_import():\n>       import non_existent_module  # This will cause an ImportError\nE       ModuleNotFoundError: No module named 'non_existent_module'\n\nTests/Failures/test_invalid_import.py:4: ModuleNotFoundError",
+                    "error_type": "ModuleNotFoundError",
+                    "error_message": "No module named 'non_existent_module'"
+                },
+                "teardown": {
+                    "outcome": "passed",
+                    "duration": 9.360600000007935e-05
+                }
+            }
+        },
+        {
+            "nodeid": "Tests/Failures/test_setup_error.py::TestSetupError::test_setup",
+            "name": "test_setup",
+            "path": "/Users/sa/PycharmProjects/pytest-qanova/Tests/Failures/test_setup_error.py",
+            "location": [
+                "Tests/Failures/test_setup_error.py",
+                7,
+                "TestSetupError.test_setup"
+            ],
+            "markers": [],
+            "status": "done",
+            "results": {
+                "setup": {
+                    "outcome": "failed",
+                    "duration": 0.00037000300000000763,
+                    "longrepr": "cls = <class 'Tests.Failures.test_setup_error.TestSetupError'>\n\n    @classmethod\n    def setup_class(cls):\n>       b = cls.a + 8\nE       TypeError: can only concatenate str (not \"int\") to str\n\nTests/Failures/test_setup_error.py:6: TypeError",
+                    "error_type": "TypeError",
+                    "error_message": "can only concatenate str (not \"int\") to str"
+                },
+                "call": {
+                    "outcome": null,
+                    "duration": null
+                },
+                "teardown": {
+                    "outcome": "passed",
+                    "duration": 0.00014011599999996793
+                }
+            }
+        },
+        {
+            "nodeid": "Tests/Failures/test_teardown_error.py::TestTeardownError::test_teardown",
+            "name": "test_teardown",
+            "path": "/Users/sa/PycharmProjects/pytest-qanova/Tests/Failures/test_teardown_error.py",
+            "location": [
+                "Tests/Failures/test_teardown_error.py",
+                5,
+                "TestTeardownError.test_teardown"
+            ],
+            "markers": [],
+            "status": "done",
+            "results": {
+                "setup": {
+                    "outcome": "passed",
+                    "duration": 0.00017599100000009749
+                },
+                "call": {
+                    "outcome": "passed",
+                    "duration": 8.549800000001717e-05
+                },
+                "teardown": {
+                    "outcome": "failed",
+                    "duration": 0.00015154900000002858,
+                    "longrepr": "cls = <class 'Tests.Failures.test_teardown_error.TestTeardownError'>\n\n    @classmethod\n    def teardown_class(cls):\n>       assert False, \"Assertion Message\"\nE       AssertionError: Assertion Message\nE       assert False\n\nTests/Failures/test_teardown_error.py:11: AssertionError",
+                    "error_type": "AssertionError",
+                    "error_message": "Assertion Message\nassert False"
+                }
+            }
+        },
+        {
+            "nodeid": "Tests/Fixture_Failures/test_fixture_setup_fail.py::test_fixture_failure",
+            "name": "test_fixture_failure",
+            "path": "/Users/sa/PycharmProjects/pytest-qanova/Tests/Fixture_Failures/test_fixture_setup_fail.py",
+            "location": [
+                "Tests/Fixture_Failures/test_fixture_setup_fail.py",
+                10,
+                "test_fixture_failure"
+            ],
+            "markers": [],
+            "status": "done",
+            "results": {
+                "setup": {
+                    "outcome": "failed",
+                    "duration": 0.00032340600000002606,
+                    "longrepr": "@pytest.fixture\n    def failing_fixture():\n>       raise ValueError(\"Intentional fixture setup failure\")\nE       ValueError: Intentional fixture setup failure\n\nTests/Fixture_Failures/test_fixture_setup_fail.py:8: ValueError",
+                    "error_type": "ValueError",
+                    "error_message": "Intentional fixture setup failure"
+                },
+                "call": {
+                    "outcome": null,
+                    "duration": null
+                },
+                "teardown": {
+                    "outcome": "passed",
+                    "duration": 0.00012129699999996468
+                }
+            }
+        },
+        {
+            "nodeid": "Tests/Fixture_Failures/test_fixture_teardown_failure.py::test_teardown_failure",
+            "name": "test_teardown_failure",
+            "path": "/Users/sa/PycharmProjects/pytest-qanova/Tests/Fixture_Failures/test_fixture_teardown_failure.py",
+            "location": [
+                "Tests/Fixture_Failures/test_fixture_teardown_failure.py",
+                11,
+                "test_teardown_failure"
+            ],
+            "markers": [],
+            "status": "done",
+            "results": {
+                "setup": {
+                    "outcome": "passed",
+                    "duration": 0.0003555439999999299
+                },
+                "call": {
+                    "outcome": "passed",
+                    "duration": 0.00011327400000005206
+                },
+                "teardown": {
+                    "outcome": "failed",
+                    "duration": 0.00010540500000000286,
+                    "longrepr": "def teardown():\n>       raise ValueError(\"Intentional fixture teardown failure\")\nE       ValueError: Intentional fixture teardown failure\n\nTests/Fixture_Failures/test_fixture_teardown_failure.py:8: ValueError",
+                    "error_type": "ValueError",
+                    "error_message": "Intentional fixture teardown failure"
+                }
+            }
+        },
+        {
+            "nodeid": "Tests/Positive/test_function.py::test_simple",
+            "name": "test_simple",
+            "path": "/Users/sa/PycharmProjects/pytest-qanova/Tests/Positive/test_function.py",
+            "location": [
+                "Tests/Positive/test_function.py",
+                3,
+                "test_simple"
+            ],
+            "markers": [],
+            "status": "done",
+            "results": {
+                "setup": {
+                    "outcome": "passed",
+                    "duration": 0.00029217599999997734
+                },
+                "call": {
+                    "outcome": "passed",
+                    "duration": 8.626200000005912e-05
+                },
+                "teardown": {
+                    "outcome": "passed",
+                    "duration": 6.659300000000368e-05
+                }
+            }
+        },
+        {
+            "nodeid": "Tests/Positive/test_in_class.py::TestTrue::test_true",
+            "name": "test_true",
+            "path": "/Users/sa/PycharmProjects/pytest-qanova/Tests/Positive/test_in_class.py",
+            "location": [
+                "Tests/Positive/test_in_class.py",
+                1,
+                "TestTrue.test_true"
+            ],
+            "markers": [],
+            "status": "done",
+            "results": {
+                "setup": {
+                    "outcome": "passed",
+                    "duration": 8.399300000005994e-05
+                },
+                "call": {
+                    "outcome": "passed",
+                    "duration": 9.302499999996883e-05
+                },
+                "teardown": {
+                    "outcome": "passed",
+                    "duration": 6.870800000002841e-05
+                }
+            }
+        },
+        {
+            "nodeid": "Tests/Positive/test_in_class_in_class.py::Tests::Test::test_in_class_in_class",
+            "name": "test_in_class_in_class",
+            "path": "/Users/sa/PycharmProjects/pytest-qanova/Tests/Positive/test_in_class_in_class.py",
+            "location": [
+                "Tests/Positive/test_in_class_in_class.py",
+                5,
+                "Tests.Test.test_in_class_in_class"
+            ],
+            "markers": [],
+            "status": "done",
+            "results": {
+                "setup": {
+                    "outcome": "passed",
+                    "duration": 0.00010354700000003714
+                },
+                "call": {
+                    "outcome": "passed",
+                    "duration": 9.581299999994464e-05
+                },
+                "teardown": {
+                    "outcome": "passed",
+                    "duration": 8.571699999992966e-05
+                }
+            }
+        },
+        {
+            "nodeid": "Tests/Positive/params/test_different_parameter_types.py::test_in_class_parameterized[1-1.5-True-None]",
+            "name": "test_in_class_parameterized[1-1.5-True-None]",
+            "path": "/Users/sa/PycharmProjects/pytest-qanova/Tests/Positive/params/test_different_parameter_types.py",
+            "location": [
+                "Tests/Positive/params/test_different_parameter_types.py",
+                4,
+                "test_in_class_parameterized[1-1.5-True-None]"
+            ],
+            "markers": [
+                {
+                    "parametrize": null
+                }
+            ],
+            "status": "done",
+            "results": {
+                "setup": {
+                    "outcome": "passed",
+                    "duration": 0.0007995249999999121
+                },
+                "call": {
+                    "outcome": "passed",
+                    "duration": 0.00014051999999997733
+                },
+                "teardown": {
+                    "outcome": "passed",
+                    "duration": 0.0001419169999999914
+                }
+            }
+        },
+        {
+            "nodeid": "Tests/Positive/params/test_in_class_parametrized.py::Tests::test_in_class_parameterized[param]",
+            "name": "test_in_class_parameterized[param]",
+            "path": "/Users/sa/PycharmProjects/pytest-qanova/Tests/Positive/params/test_in_class_parametrized.py",
+            "location": [
+                "Tests/Positive/params/test_in_class_parametrized.py",
+                6,
+                "Tests.test_in_class_parameterized[param]"
+            ],
+            "markers": [
+                {
+                    "parametrize": null
+                }
+            ],
+            "status": "done",
+            "results": {
+                "setup": {
+                    "outcome": "passed",
+                    "duration": 0.00019286799999995718
+                },
+                "call": {
+                    "outcome": "passed",
+                    "duration": 9.961000000002773e-05
+                },
+                "teardown": {
+                    "outcome": "passed",
+                    "duration": 9.762400000001836e-05
+                }
+            }
+        },
+        {
+            "nodeid": "Tests/Positive/sub_suite/test_subsuite_function.py::test_simple",
+            "name": "test_simple",
+            "path": "/Users/sa/PycharmProjects/pytest-qanova/Tests/Positive/sub_suite/test_subsuite_function.py",
+            "location": [
+                "Tests/Positive/sub_suite/test_subsuite_function.py",
+                3,
+                "test_simple"
+            ],
+            "markers": [],
+            "status": "done",
+            "results": {
+                "setup": {
+                    "outcome": "passed",
+                    "duration": 0.0003591010000000283
+                },
+                "call": {
+                    "outcome": "passed",
+                    "duration": 0.00011451399999995449
+                },
+                "teardown": {
+                    "outcome": "passed",
+                    "duration": 7.909699999997244e-05
+                }
+            }
+        },
+        {
+            "nodeid": "Tests/Positive/sub_suite/test_subsuite_in_class.py::TestTrue::test_true",
+            "name": "test_true",
+            "path": "/Users/sa/PycharmProjects/pytest-qanova/Tests/Positive/sub_suite/test_subsuite_in_class.py",
+            "location": [
+                "Tests/Positive/sub_suite/test_subsuite_in_class.py",
+                1,
+                "TestTrue.test_true"
+            ],
+            "markers": [],
+            "status": "done",
+            "results": {
+                "setup": {
+                    "outcome": "passed",
+                    "duration": 9.859099999998122e-05
+                },
+                "call": {
+                    "outcome": "passed",
+                    "duration": 0.00010728500000001251
+                },
+                "teardown": {
+                    "outcome": "passed",
+                    "duration": 7.523400000009062e-05
+                }
+            }
+        },
+        {
+            "nodeid": "Tests/Skip/test_simple_skip.py::test_simple_skip",
+            "name": "test_simple_skip",
+            "path": "/Users/sa/PycharmProjects/pytest-qanova/Tests/Skip/test_simple_skip.py",
+            "location": [
+                "Tests/Skip/test_simple_skip.py",
+                5,
+                "test_simple_skip"
+            ],
+            "markers": [
+                {
+                    "skip": {
+                        "reason": "no way of currently testing this"
+                    }
+                }
+            ],
+            "status": "done",
+            "results": {
+                "setup": {
+                    "outcome": "skipped",
+                    "duration": 9.345900000001794e-05
+                },
+                "call": {
+                    "outcome": null,
+                    "duration": null
+                },
+                "teardown": {
+                    "outcome": "passed",
+                    "duration": 7.610600000007572e-05
+                }
+            }
+        },
+        {
+            "nodeid": "Tests/Skip/test_skip_issue.py::test_simple_skip",
+            "name": "test_simple_skip",
+            "path": "/Users/sa/PycharmProjects/pytest-qanova/Tests/Skip/test_skip_issue.py",
+            "location": [
+                "Tests/Skip/test_skip_issue.py",
+                9,
+                "test_simple_skip"
+            ],
+            "markers": [
+                {
+                    "skip": {
+                        "reason": "no way of currently testing this"
+                    }
+                },
+                {
+                    "issue": {
+                        "issue_id": "ABC-1234",
+                        "reason": "some_bug",
+                        "issue_type": "PB"
+                    }
+                },
+                {
+                    "slow": {
+                        "reason": "DB under construction"
+                    }
+                }
+            ],
+            "status": "done",
+            "results": {
+                "setup": {
+                    "outcome": "skipped",
+                    "duration": 8.883900000000722e-05
+                },
+                "call": {
+                    "outcome": null,
+                    "duration": null
+                },
+                "teardown": {
+                    "outcome": "passed",
+                    "duration": 8.390000000002562e-05
+                }
+            }
+        }
+    ],
+    "session_info": {
+        "command_line": "--no-header --no-summary -q",
+        "rootdir": "/Users/sa/PycharmProjects/pytest-qanova",
+        "inifile": "/Users/sa/PycharmProjects/pytest-qanova/pytest.ini",
+        "args": [
+            "Tests"
+        ],
+        "options": {
+            "keyword": "",
+            "markexpr": "",
+            "maxfail": 0,
+            "continue_on_collection_errors": false,
+            "confcutdir": null,
+            "noconftest": false,
+            "keepduplicates": false,
+            "collect_in_virtualenv": false,
+            "importmode": "prepend",
+            "basetemp": "/private/var/folders/8d/8mwphkxn79704jv13pk4jzb00000gn/T/pytest-of-sa/pytest-100/popen-gw0",
+            "durations": null,
+            "durations_min": 0.005,
+            "version": 0,
+            "plugins": [],
+            "traceconfig": false,
+            "showfixtures": false,
+            "show_fixtures_per_test": false,
+            "verbose": 0,
+            "no_header": true,
+            "no_summary": true,
+            "reportchars": "fE",
+            "disable_warnings": false,
+            "showlocals": false,
+            "tbstyle": "auto",
+            "showcapture": "all",
+            "fulltrace": false,
+            "color": "auto",
+            "code_highlight": "yes",
+            "capture": "no",
+            "runxfail": false,
+            "pastebin": null,
+            "assertmode": "rewrite",
+            "xmlpath": null,
+            "junitprefix": null,
+            "doctestmodules": false,
+            "doctestreport": "udiff",
+            "doctestglob": [],
+            "doctest_ignore_import_errors": false,
+            "doctest_continue_on_failure": false,
+            "last_failed_no_failures": "all",
+            "stepwise": false,
+            "stepwise_skip": false,
+            "maxworkerrestart": null,
+            "dist": "no",
+            "tx": [],
+            "distload": false,
+            "rsyncdir": [],
+            "rsyncignore": [],
+            "looponfail": false,
+            "forked": false,
+            "only_rerun": null,
+            "reruns": 0,
+            "reruns_delay": 0,
+            "markers": false,
+            "usepdb": false,
+            "usepdb_cls": null,
+            "trace": false,
+            "lf": false,
+            "failedfirst": false,
+            "newfirst": false,
+            "cacheshow": null,
+            "cacheclear": false,
+            "pythonwarnings": null,
+            "strict_config": false,
+            "strict_markers": false,
+            "strict": false,
+            "inifilename": null,
+            "rootdir": null,
+            "collectonly": false,
+            "pyargs": false,
+            "ignore": null,
+            "ignore_glob": null,
+            "deselect": null,
+            "help": false,
+            "debug": null,
+            "override_ini": null,
+            "setuponly": false,
+            "setupshow": false,
+            "setupplan": false,
+            "log_level": null,
+            "log_format": null,
+            "log_date_format": null,
+            "log_cli_level": null,
+            "log_cli_format": null,
+            "log_cli_date_format": null,
+            "log_file": null,
+            "log_file_level": null,
+            "log_file_format": null,
+            "log_file_date_format": null,
+            "log_auto_indent": null,
+            "numprocesses": null,
+            "maxprocesses": null,
+            "boxed": false,
+            "testrunuid": null,
+            "workers": null,
+            "tests_per_worker": null,
+            "typeguard_packages": null,
+            "file_or_dir": [
+                "Tests"
+            ],
+            "quiet": 1,
+            "loadgroup": false
+        }
+    }
+}

@@ -33,4 +33,7 @@ Thumbs.db
 *.app
 *.exe
 *.war
-
+.pypirc
+dist
+pytest_qanova.egg-info
+test_results.json
