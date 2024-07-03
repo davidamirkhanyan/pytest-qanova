@@ -17,6 +17,7 @@ setup(
         },
     install_requires=[
         'pytest',
+        'httpx'
         ],
     classifiers=[
         'Development Status :: 3 - Alpha',
