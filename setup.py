@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='pytest_qanova',
-    version='0.0.2dev7',
+    version='0.0.2dev8',
     author='Davit Amirkhanyan',
     author_email='davit.amirkhanyan95@gmail.com',
     description='A pytest plugin to collect test information',
