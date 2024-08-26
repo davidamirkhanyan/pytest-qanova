@@ -83,7 +83,7 @@ class ApiClient:
             """Perform a GET request and wait for the response."""
             url = urljoin(self.base_url, endpoint)
             try:
-                response = httpx.get(url, headers=self.headers, params=params)
+                response = httpx.get(url, headers=self.headers, params=params, timeout=10)
                 response.raise_for_status()
                 self.logger.info(f"Sync GET request to {url} succeeded.")
                 return response.json()
@@ -95,7 +95,7 @@ class ApiClient:
             """Perform a POST request and wait for the response."""
             url = urljoin(self.base_url, endpoint)
             try:
-                response = httpx.post(url, headers=self.headers, json=data, params=params)
+                response = httpx.post(url, headers=self.headers, json=data, params=params, timeout=10)
                 response.raise_for_status()
                 self.logger.info(f"Sync POST request to {url} succeeded.")
                 return response.json()
@@ -107,7 +107,7 @@ class ApiClient:
             """Perform a PUT request and wait for the response."""
             url = urljoin(self.base_url, endpoint)
             try:
-                response = httpx.put(url, headers=self.headers, json=data)
+                response = httpx.put(url, headers=self.headers, json=data, timeout=10)
                 response.raise_for_status()
                 self.logger.info(f"Sync PUT request to {url} succeeded.")
                 return response.json()
@@ -119,7 +119,7 @@ class ApiClient:
             """Perform a DELETE request and wait for the response."""
             url = urljoin(self.base_url, endpoint)
             try:
-                response = httpx.delete(url, headers=self.headers, params=params)
+                response = httpx.delete(url, headers=self.headers, params=params, timeout=10)
                 response.raise_for_status()
                 self.logger.info(f"Sync DELETE request to {url} succeeded.")
                 return response.json()
