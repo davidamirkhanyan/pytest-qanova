@@ -36,4 +36,3 @@ Thumbs.db
 .pypirc
 dist
 pytest_qanova.egg-info
-test_results.json

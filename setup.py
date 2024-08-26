@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='pytest_qanova',
-    version='0.0.2dev3',
+    version='0.0.2dev7',
     author='Davit Amirkhanyan',
     author_email='davit.amirkhanyan95@gmail.com',
     description='A pytest plugin to collect test information',
@@ -17,7 +17,8 @@ setup(
         },
     install_requires=[
         'pytest',
-        'httpx'
+        'httpx',
+        'dill'
         ],
     classifiers=[
         'Development Status :: 3 - Alpha',

@@ -1,108 +1,227 @@
-import pytest
-import asyncio
-from Interface.SessionManager import SessionManager
-from Interface.TestManager import TestManager
-import json
+"""This module contains changed pytest for QaNova."""
 
-api_token = "eyJraWQiOiJvSVVwNGxoazBjSWUyMHJ4bmdSU0F0U3V3eVVwdVJ0eDZ3QzUzZk9UTHdrPSIsImFsZyI6IlJTMjU2In0.eyJzdWIiOiJhNmZjM2I1OS00OGE4LTQ5MmYtOWRmNS1hMDI2MTAzZTA4Y2IiLCJldmVudF9pZCI6IjY3M2I0ODExLTcyZTQtNGUxMi1hNTlhLTVlNzE2ZmE0YTUwZiIsInRva2VuX3VzZSI6ImFjY2VzcyIsInNjb3BlIjoiYXdzLmNvZ25pdG8uc2lnbmluLnVzZXIuYWRtaW4iLCJhdXRoX3RpbWUiOjE2NzA5Mzk0NDksImlzcyI6Imh0dHBzOlwvXC9jb2duaXRvLWlkcC51cy13ZXN0LTIuYW1hem9uYXdzLmNvbVwvdXMtd2VzdC0yXzZkMDZrVnRVbCIsImV4cCI6MTY3MTAxNTc5OSwiaWF0IjoxNjcxMDEyMTk5LCJqdGkiOiI0YzBkMjhjNi04YTA5LTQ0MDMtOTljOC1hODg5NTIzNDQ1NjIiLCJjbGllbnRfaWQiOiJhNXZiazJpbjg1a2JrdWVzY2U0c292NHUyIiwidXNlcm5hbWUiOiJkYXZpdGFtX3N1cGVyYW5ub3RhdGUuY29tIn0.apbHMGpMSUX7fw-xD4JLjeDqwDtER_Kx0C4MwsGZKU68_R5vHdXtHg3VL3I-RapoR_REwtqXzdf1fMPaXZES71Ec2W_hnQNjCbArOkC3nIeQBvSLKKNVuCm2zMYWvjwE8JzMs_XAZOB2Z28sJO8xflCAyovxXAY4qS1C86Vl0z6DsELFa8z5kRKbWeS5e5t7OlDf8jS-ZMETcv-zFYVF6ZTxacejcHcMiOXWOiHJpAUOS3pWDfE8wU61CvMBEX_HhBEac7y-oTrUu8cJ7P7Qu4b3FpCGokqRg0yT7QHbcofXD3jfwxpd01I4TKoxvHaRfZZBJahU5Hi29QDUSZXMqw:eyJraWQiOiJ3V0s1TDhpR0RvaW1MS3hkejVnaXFyTllQVzBvdW1wOEQ4a3ZcLzZVRXZjUT0iLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJhNmZjM2I1OS00OGE4LTQ5MmYtOWRmNS1hMDI2MTAzZTA4Y2IiLCJhdWQiOiJhNXZiazJpbjg1a2JrdWVzY2U0c292NHUyIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsImV2ZW50X2lkIjoiNjczYjQ4MTEtNzJlNC00ZTEyLWE1OWEtNWU3MTZmYTRhNTBmIiwidG9rZW5fdXNlIjoiaWQiLCJhdXRoX3RpbWUiOjE2NzA5Mzk0NDksImlzcyI6Imh0dHBzOlwvXC9jb2duaXRvLWlkcC51cy13ZXN0LTIuYW1hem9uYXdzLmNvbVwvdXMtd2VzdC0yXzZkMDZrVnRVbCIsImNvZ25pdG86dXNlcm5hbWUiOiJkYXZpdGFtX3N1cGVyYW5ub3RhdGUuY29tIiwiZXhwIjoxNjcxMDE1Nzk5LCJpYXQiOjE2NzEwMTIxOTksImVtYWlsIjoiZGF2aXRhbUBzdXBlcmFubm90YXRlLmNvbSJ9.Gt3Y958jFVOST3tUes2QRdkaVEPM6qJsVA92jIKnh_Vm3vFjRiHrJgCH9RbPEPwFm0FaSIq4uMY5cJregXGaCZofDI-IF4nZ_mOHuQ9GZV8nqbUVWRF07cxOIuFybIH6vrfunGdhNh82GCgTrpluyHmJmWPWMGW659Xai_JjW4JT7IEhZhCWIqQrGmngOCf9bKbTO8eBmLplkg0uxDwgTCvbBo4rc6ZrE3JVoNmthUg5iVGdoqQ2DCkn-4RuoQYMnEnt4meQbTHUJvFv_85-f0Jhrz1V8FrnKjPMrRsUCUONLieGj485GP0n26riPa2HJ616hD6IMx-y8aGlz5SeVg"
-test_info_dict = {}
+import logging
+import time
+from Interface.QaNovaAgent import AgentConfig
+import dill as pickle
+import pytest
+import requests
+from Interface.PyTestService import PyTestServiceClass
+
+log = logging.getLogger(__name__)
+
+
+@pytest.hookimpl(optionalhook=True)
+def pytest_configure_node(node):
+    """Configure xdist node controller.
+
+    :param node: Object of the xdist WorkerController class
+    """
+    if not node.config.qn_enabled:
+        # Stop now if the plugin is not properly configured
+        return
+    node.workerinput['py_test_service'] = pickle.dumps(node.config.py_test_service)
+
+
+def is_control(config):
+    """Validate workerinput attribute of the Config object.
+
+    True if the code, running the given pytest.config object,
+    is running as the xdist control node or not running xdist at all.
+    """  # noqa
+    return not hasattr(config, 'workerinput') # noqa
+
+
+def wait_launch(rp_client):
+    """Wait for the launch startup.
+
+    :param rp_client: Instance of the ReportPortalService class
+    """
+    timeout = time.time()
+    while not rp_client.launch_id:
+        if time.time() > timeout:
+            return False
+        time.sleep(1)
+    return True
+
+
+def pytest_sessionstart(session): # noqa
+    """Start Report Portal launch.
+
+    This method is called every time on control or worker process start, it
+    analyses from which process it is called and starts a Report Portal launch
+    if it's a control process.
+    :param session: Object of the pytest Session class
+    """
+    config = session.config
+    if not config.qn_enabled:
+        return
+
+    if is_control(config):
+        try:
+            config = config.py_test_service.start_session(config)
+        except Exception as response_error:
+            log.warning('Failed to initialize QaNova client service. Reporting is disabled.')
+            log.debug(str(response_error))
+            config.qn_enabled = False
+            return
+        
+
+def pytest_sessionfinish(session): # noqa
+    """Finish current test session.
+
+    :param session: Object of the pytest Session class
+    """
+    config = session.config
+    if not config.qn_enabled:
+        # Stop now if the plugin is not properly configured
+        return
+
+
+def register_markers(config):
+    """Register plugin's markers, to avoid declaring them in `pytest.ini`.
+
+    :param config: Object of the pytest Config class
+    """
+    config.addinivalue_line(
+        "markers", "issue(issue_id, reason, issue_type, url): mark test with "
+                   "information about skipped or failed result"
+        )
+    config.addinivalue_line(
+        "markers", "tc_id(id, parameterized, params): report the test"
+                   "case with a custom Test Case ID. Parameters: \n"
+                   "parameterized [True / False] - use parameter values in "
+                   "Test Case ID generation \n"
+                   "params [parameter names as list] - use only specified"
+                   "parameters"
+        )
+
+
+def check_connection(agent_config: AgentConfig) -> bool:
+    """Check connection to RP using provided options.
+
+    If connection is successful returns True either False.
+    :param agent_config: Instance of the AgentConfig class
+    :return True on successful connection check, either False
+    """
+    url = '{0}check-connection/'.format(agent_config.qn_endpoint)
+    headers = {'QaNovaToken': f'{agent_config.qn_token}'}
+    try:
+        resp = requests.get(url, headers=headers)
+        resp.raise_for_status()
+        return True
+    except requests.exceptions.RequestException:
+        return False
 
 
 def pytest_configure(config):
-    """Hook to configure pytest and collect starting variables."""
-    command_line = ' '.join(config.invocation_params.args)
-    rootdir = str(config.rootdir)
-    inifile = str(config.inifile) if config.inifile else None
-    args = config.args
-    options = {key: value for key, value in vars(config.option).items()}
-    # TODO session creation here
-    session_id = 1234
-    config.session_id = session_id
-    config.session_info = {
-        'session_id': session_id,
-        'state': 1,
-        'command_line': command_line,
-        'rootdir': rootdir,
-        'inifile': inifile,
-        'args': args,
-        'options': options
-        }
-    session_manager = SessionManager(api_token)
-    config.session_manager = session_manager
-    asyncio.run(session_manager.start_session())
+    """Update Config object with attributes required for reporting to RP.
 
-        
-@pytest.hookimpl(tryfirst=True)
-def pytest_configure_node(node):
-    """xdist hook"""
-    node.workerinput['session_id'] = node.config.session_id
+    :param config: Object of the pytest Config class
+    """
+    register_markers(config)
+    if bool(config.option.token and config.option.endpoint):
+        config.qn_enabled = True
+    if not config.qn_enabled:
+        return
 
+    qa_nova_config = AgentConfig(config)
 
-def pytest_collection_modifyitems(config, items):
-    for item in items:
-        nodeid = item.nodeid
-        if hasattr(config, 'workerinput'):
-            item.session_id = config.workerinput['session_id']
-        else:
-            item.session_id = config.session_id
-        test_info_dict[nodeid] = {
-            'nodeid': nodeid,
-            'session_id': item.session_id,
-            'name': item.name,
-            'path': str(item.fspath),
-            'location': item.location,
-            'markers': [{marker.name: marker.kwargs if marker.kwargs else None} for marker in item.iter_markers()],
-            'status': 'collected',
-            'results': {
-                'setup': {'outcome': None, 'duration': None},
-                'call': {'outcome': None, 'duration': None},
-                'teardown': {'outcome': None, 'duration': None},
-                }
-            }
-    with open('test_results.json', 'w') as t:
-        json.dump({
-            'tests': list(test_info_dict.values()),
-            'session_info': config.session_info
-            }, t, indent=4)
+    cond = (qa_nova_config.qn_token, qa_nova_config.qn_enabled)
+    config.qn_enabled = all(cond)
 
+    if qa_nova_config:
+        config.qn_enabled = check_connection(qa_nova_config)
 
-def pytest_runtest_logreport(report):
-    nodeid = report.nodeid
-    if nodeid in test_info_dict:
-        session_id = test_info_dict[nodeid]['session_id']
-        phase = report.when
-        if phase == 'setup':
-            test_info_dict[nodeid]['status'] = 'in progress'
-        test_info_dict[nodeid]['results'][phase]['outcome'] = report.outcome
-        test_info_dict[nodeid]['results'][phase]['duration'] = report.duration
-        if report.outcome == 'failed':
-            error_type, error_message = extract_error_type(report)
-            test_info_dict[nodeid]['results'][phase]['longrepr'] = str(report.longrepr) if report.failed else None
-            test_info_dict[nodeid]['results'][phase]['error_type'] = error_type
-            test_info_dict[nodeid]['results'][phase]['error_message'] = error_message
-        if phase == 'teardown':
-            test_info_dict[nodeid]['status'] = 'done'
-            tm = TestManager(api_token)
-            tm.log_test_result(session_id=session_id, result=test_info_dict[nodeid])
-            
-            # This part is for local testing
-            with open('test_results.json', 'r') as t:
-                data = json.load(t)
-            
-            target_result = [item for item in data['tests'] if item['nodeid']==nodeid][0]
-            target_index = data['tests'].index(target_result)
-            data['tests'][target_index] = test_info_dict[nodeid]
-            
-            with open('test_results.json', 'w') as t:
-                json.dump(data, t)
-    
-    
-def extract_error_type(report):
-    if report.failed:
-        if hasattr(report.longrepr, 'reprcrash'):
-            error_type, error_message = report.longrepr.reprcrash.message.split(': ', 1)
-            return error_type, error_message
+    if not config.qn_enabled:
+        return
+
+    config.qa_nova_config = qa_nova_config
+
+    if is_control(config):
+        config.py_test_service = PyTestServiceClass(qa_nova_config)
     else:
-        return None, None
+        config.py_test_service = pickle.loads(config.workerinput['py_test_service'])
+
+
+@pytest.hookimpl(hookwrapper=True)
+def pytest_runtest_makereport(item, call):  # noqa
+    """
+        Change runtest_makereport function.
+
+    :param item: pytest.Item
+    :return: None
+    """# noqa
+    config = item.config
+    if not config.qn_enabled:
+        return
+    yield
+    config.py_test_service.update_test_case(item, call)
     
+
+@pytest.hookimpl(tryfirst=True)
+def pytest_runtest_setup(item):
+    config = item.config
+    if not config.qn_enabled:
+        return
+    config.py_test_service.create_empty_result(item)
+    """
+    Hook called before the execution of each test function.
+    This is a good place to perform setup actions or logging.
+
+    :param item: The test item that is about to be executed.
+    """
+    # Print the name of the test function before it runs
+    print(f"Setting up for test: {item.name}")
     
+
+def pytest_addoption(parser): # noqa
+    """Add support for the RP-related options.
+
+    :param parser: Object of the Parser class
+    """
+    group = parser.getgroup('QaNova')
+
+    def add_shared_option(name, help_str, default=None, action='store'):
+        """
+        Add an option to both the command line and the .ini file.
+
+        This function modifies `parser` and `group` from the outer scope.
+
+        :param name:     name of the option
+        :param help_str: help message
+        :param default:  default value
+        :param action:   `group.addoption` action
+        """ # noqa
+        parser.addini(
+            name=name,
+            default=default,
+            help=help_str,
+            )
+        group.addoption(
+            '--{0}'.format(name.replace('_', '-')),
+            action=action,
+            dest=name,
+            help='{help} (overrides {name} config option)'.format(
+                help=help_str,
+                name=name,
+                ),
+            )
+
+    group.addoption(
+        '--qanova', # noqa
+        action='store_true',
+        dest='qn_enabled',
+        default=False,
+        help='Enable QaNova Plugin'
+        )
+    add_shared_option(
+        name='token',
+        help_str='Authentication token',
+        default='',
+        )
+    add_shared_option(
+        name='endpoint',
+        help_str='Base Endpoint to QaNova application.',
+        default='',
+        )
